@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta name="theme-color" content="#08080C"/>
+  <title>ROP – Rob Podcast</title>
+  <meta name="description" content="ROP – The world's most cinematic podcast platform."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&display=swap" rel="stylesheet"/>
+  <!-- YouTube IFrame API — powers REAL audio playback in the player -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <style>
+    :root {
+      --bg: #08080C;
+      --surface: #111116;
+      --card: #16161E;
+      --border: rgba(255,255,255,0.07);
+      --accent: #4f46e5;
+      --accent2: #2563eb;
+      --glow: rgba(79,70,229,0.4);
+      --text: #FFFFFF;
+      --sub: rgba(255,255,255,0.45);
+      --muted: rgba(255,255,255,0.22);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body, #root { height: 100%; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      overscroll-behavior: none;
+      color: var(--text);
+    }
+    ::-webkit-scrollbar { display: none; }
+    * { scrollbar-width: none; -webkit-tap-highlight-color: transparent; }
+    button, input { font-family: 'DM Sans', sans-serif; }
+    input::placeholder { color: var(--muted); }
+
+    /* ── Keyframe Library ───────────────────────────────────── */
+    @keyframes fadeIn   { from{opacity:0} to{opacity:1} }
+    @keyframes slideUp  { from{opacity:0;transform:translateY(22px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes slideIn  { from{opacity:0;transform:translateX(-14px)} to{opacity:1;transform:translateX(0)} }
+    @keyframes heroZoom { 0%{transform:scale(1) translate(0,0)} 100%{transform:scale(1.07) translate(-0.5%,-0.5%)} }
+    @keyframes shimmer  { 0%{background-position:-400% 0} 100%{background-position:400% 0} }
+    @keyframes wavePulse{
+      0%,100% { height: 4px; opacity:.4 }
+      50%      { height: var(--wh,20px); opacity:1 }
+    }
+    @keyframes pulse    { 0%,100%{opacity:.5} 50%{opacity:1} }
+    @keyframes spinAnim { to{ transform:rotate(360deg) } }
+    @keyframes glowPop  {
+      0%   { box-shadow: 0 0 0 0 var(--glow) }
+      50%  { box-shadow: 0 0 22px 6px var(--glow) }
+      100% { box-shadow: 0 0 0 0 var(--glow) }
+    }
+    @keyframes dotPulse {
+      0%,80%,100% { transform:scale(0); opacity:0 }
+      40%         { transform:scale(1); opacity:1 }
+    }
+
+    .fade-in  { animation: fadeIn  .4s ease both; }
+    .slide-up { animation: slideUp .4s ease both; }
+
+    /* Skeleton shimmer */
+    .skel {
+      background: linear-gradient(90deg,#1a1a24 25%,#232332 50%,#1a1a24 75%);
+      background-size: 400% 100%;
+      animation: shimmer 1.6s infinite;
+      border-radius: 12px;
+    }
+
+    /* Spinner */
+    .spinner {
+      width: 28px; height: 28px;
+      border: 3px solid rgba(255,255,255,0.12);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spinAnim .75s linear infinite;
+    }
+
+    /* Floating dots loader */
+    .dot-loader span {
+      display: inline-block;
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: dotPulse 1.2s ease infinite;
+    }
+    .dot-loader span:nth-child(2) { animation-delay:.15s; }
+    .dot-loader span:nth-child(3) { animation-delay:.3s; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <!--
+    Hidden YouTube player — real audio engine.
+    The div is off-screen. A YT.Player is mounted here by useYouTubePlayer.js.
+    This lets us play actual podcast audio from YouTube with full controls.
+  -->
+  <div id="yt-engine" style="
+    position:fixed; bottom:-9999px; left:-9999px;
+    width:1px; height:1px; opacity:0;
+    pointer-events:none; z-index:-1;
+  "></div>
+  <script type="module" src="/src/main.jsx"></script>
+</body>
+</html>
